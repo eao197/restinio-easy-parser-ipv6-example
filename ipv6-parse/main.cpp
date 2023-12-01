@@ -80,15 +80,15 @@ public:
 	{}
 
 	void
-	push_back( hex_uint16_collector_t h16v )
+	push_back( std::uint16_t h16v )
 	{
 		if( m_pos >= m_value.size() )
 			throw std::runtime_error{
-				"ipv6_bytes_collector_t::push_back(hex_uint16_collector_t): m_pos is already "
+				"ipv6_bytes_collector_t::push_back(std::uint16_t): m_pos is already "
 				"at the end of m_value"
 			};
 
-		m_value[ m_pos ] = h16v.value();
+		m_value[ m_pos ] = h16v;
 		++m_pos;
 	}
 
@@ -185,7 +185,7 @@ template<>
 struct result_value_wrapper< ::example::ipv6_bytes_collector_t >
 {
 	using result_type = ::example::ipv6_bytes_collector_t;
-	using value_type = ::example::hex_uint16_collector_t;
+	using value_type = std::uint16_t;
 	using wrapped_type = result_type;
 
 	static void
@@ -231,13 +231,16 @@ namespace ep = restinio::easy_parser;
 auto
 h16_p()
 {
-	return ep::produce< hex_uint16_collector_t >(
-			ep::repeat( 1u, 4u, ep::hexdigit_p() >> ep::to_container() )
+	return ep::produce< std::uint16_t >(
+			ep::produce< hex_uint16_collector_t >(
+				ep::repeat( 1u, 4u, ep::hexdigit_p() >> ep::to_container() ) )
+				>> ep::convert( []( const hex_uint16_collector_t & c ) { return c.value(); } )
+				>> ep::as_result()
 		);
 }
 
 [[nodiscard]]
-restinio::expected_t< hex_uint16_collector_t, ep::parse_error_t >
+restinio::expected_t< std::uint16_t, ep::parse_error_t >
 try_parse_h16( std::string_view what )
 {
 	return ep::try_parse( what, h16_p() );
@@ -390,28 +393,28 @@ TEST_CASE( "h16" )
 		const auto r = example::try_parse_h16( "0" );
 		REQUIRE( true == r.has_value() );
 
-		REQUIRE( 0u == r->value() );
+		REQUIRE( 0u == *r );
 	}
 
 	{
 		const auto r = example::try_parse_h16( "0000" );
 		REQUIRE( true == r.has_value() );
 
-		REQUIRE( 0u == r->value() );
+		REQUIRE( 0u == *r );
 	}
 
 	{
 		const auto r = example::try_parse_h16( "1234" );
 		REQUIRE( true == r.has_value() );
 
-		REQUIRE( 0x1234u == r->value() );
+		REQUIRE( 0x1234u == *r );
 	}
 
 	{
 		const auto r = example::try_parse_h16( "AbCe" );
 		REQUIRE( true == r.has_value() );
 
-		REQUIRE( 0xabceu == r->value() );
+		REQUIRE( 0xabceu == *r );
 	}
 }
 
