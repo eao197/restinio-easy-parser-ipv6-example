@@ -1,0 +1,10 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+    "name": "versions-test",
+    "version": "1.0.0",
+    "builtin-baseline": "64ca152891d6ab135c6c27881e7eb0ac2fa15bba",
+    "dependencies": [
+        "restinio",
+        "doctest"
+    ]
+}

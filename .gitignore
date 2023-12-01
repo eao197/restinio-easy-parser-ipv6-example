@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+
+cmake_build/
+_configure_cmake_windows_release_ninja.bat
