@@ -194,22 +194,11 @@ struct result_value_wrapper< ::example::ipv6_bytes_collector_t >
 		to = what;
 	}
 
+	template< typename T >
 	static void
-	to_container( wrapped_type & to, value_type what )
+	to_container( wrapped_type & to, T && what )
 	{
-		to.push_back( what );
-	}
-
-	static void
-	to_container( wrapped_type & to, ::example::set_pos_from_end_t what )
-	{
-		to.push_back( what );
-	}
-
-	static void
-	to_container( wrapped_type & to, ::example::ipv4_by_bytes_t what )
-	{
-		to.push_back( what );
+		to.push_back( std::forward<T>(what) );
 	}
 
 	[[nodiscard]]
