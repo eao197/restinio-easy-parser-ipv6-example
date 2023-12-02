@@ -54,7 +54,7 @@ struct set_pos_from_end_t
 
 [[nodiscard]]
 set_pos_from_end_t
-operator""_from_end(std::size_t v) { return { v }; }
+operator""_from_end(unsigned long long v) { return { v }; }
 
 using ipv6_bytes_t = std::array< std::uint16_t, 8u >;
 
