@@ -4,6 +4,7 @@
     "version": "1.0.0",
     "builtin-baseline": "64ca152891d6ab135c6c27881e7eb0ac2fa15bba",
     "dependencies": [
+        "fmt",
         "restinio",
         "doctest"
     ]

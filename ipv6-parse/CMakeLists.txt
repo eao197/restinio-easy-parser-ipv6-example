@@ -1,5 +1,6 @@
 project(ipv6-parse CXX)
 
+find_package(fmt CONFIG REQUIRED)
 find_package(restinio CONFIG REQUIRED)
 find_package(doctest CONFIG REQUIRED)
 
@@ -8,6 +9,7 @@ set(UNITTEST_SRCFILES main.cpp)
 
 add_executable(${UNITTEST} ${UNITTEST_SRCFILES})
 
+target_link_libraries(${UNITTEST} PRIVATE fmt::fmt)
 target_link_libraries(${UNITTEST} PRIVATE restinio::restinio)
 target_link_libraries(${UNITTEST} PRIVATE doctest::doctest)
 target_include_directories(${UNITTEST} PRIVATE ${CMAKE_SOURCE_DIR})

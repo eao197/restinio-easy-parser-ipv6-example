@@ -3,7 +3,8 @@
 
 #include <restinio/helpers/easy_parser.hpp>
 
-#include <format>
+#include <fmt/format.h>
+#include <fmt/ranges.h>
 
 namespace example
 {
@@ -138,14 +139,7 @@ operator<<( std::ostream & to, const example::ipv6_bytes_collector_t & collector
 	const auto & what = collector.value();
 
 	to << "[";
-	to << std::format( "0x{:x}", what[0] ) << ", ";
-	to << std::format( "0x{:x}", what[1] ) << ", ";
-	to << std::format( "0x{:x}", what[2] ) << ", ";
-	to << std::format( "0x{:x}", what[3] ) << ", ";
-	to << std::format( "0x{:x}", what[4] ) << ", ";
-	to << std::format( "0x{:x}", what[5] ) << ", ";
-	to << std::format( "0x{:x}", what[6] ) << ", ";
-	to << std::format( "0x{:x}", what[7] ) << "]";
+	to << fmt::format( "0x{:x}", fmt::join(what, ", 0x") ) << "]";
 	return to;
 }
 
